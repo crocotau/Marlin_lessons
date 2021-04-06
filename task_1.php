@@ -44,10 +44,11 @@
                                         </div>
                                     </div>
                                     <ul id="js-list-msg" class="list-group px-2 pb-2 js-list-filter">
-                                        <?php $listItems = ["Reports", "Analytics", "Export", "Storage"];
-                                        foreach ($listItems as $item):?>
+                                        <?php $listItems = ["reports file"=>"Reports", "analytics graphs"=>"Analytics",
+                                            "export download"=>"Export", "storage"=>"Storage"];
+                                        foreach ($listItems as $filter=>$item):?>
                                         <li class="list-group-item">
-                                            <span data-filter-tags="reports file"><?=$item;?></span>
+                                            <span data-filter-tags=<?= $filter;?>><?=$item;?></span>
                                         </li>
                                         <?php endforeach;?>
                                     </ul>
