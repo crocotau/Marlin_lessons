@@ -45,9 +45,9 @@ $items =
 
                         <div class="panel-content">
                             <div class="fs-lg fw-300 p-5 bg-white border-faded rounded mb-g">
-                            <?php foreach ($items as $item):?>
-                            <h2><?= $item['title_h2'];?></h2>
-                            <p class="mb-g"><?= $item['text_under_h2'];?></p>
+                            <?php foreach ($items as $title=>$item):?>
+                            <h2><?= "$title";?></h2>
+                            <p class="mb-g"><?= $item;?></p>
                             <?php endforeach;?>
                             <?php foreach ($items as $item):?>
                             <h3><?= $item['title_h3'];?></h3>

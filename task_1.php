@@ -48,7 +48,7 @@
                                             "export download"=>"Export", "storage"=>"Storage"];
                                         foreach ($listItems as $filter=>$item):?>
                                         <li class="list-group-item">
-                                            <span data-filter-tags=<?= $filter;?>><?=$item;?></span>
+                                            <span data-filter-tags=<?= $filter.">".$item;?></span>
                                         </li>
                                         <?php endforeach;?>
                                     </ul>
