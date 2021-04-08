@@ -30,7 +30,7 @@ $arr =
     ],
     [
         "img"=>"img/demo/authors/roberto.png",
-        "alt"=>"Jovanni Lo",
+        "alt"=>"Roberto R",
         "title_name"=>"Roberto R. (Rails Developer)",
         "title_role"=>"Partner &amp; Contributor",
         "link_tw"=>"@sildur",
