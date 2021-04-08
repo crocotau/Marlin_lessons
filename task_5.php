@@ -92,7 +92,7 @@ $arr =
                                     <a href="<?=$item["link_wrap"]?>" class="text-info fs-sm" target="_blank" title="<?=$item["contact"]?>"><i class="fal fa-envelope"></i></a>
                                 </div>
                             </div>
-                               <?php endforeach;e?>
+                               <?php endforeach;?>
                         </div>
                         </div>
                     </div>
