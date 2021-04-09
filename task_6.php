@@ -2,7 +2,7 @@
 $arr =
 [
     [
-    "banned"=>false,
+    "status"=>"",
     "img"=>"img/demo/authors/sunny.png",
     "alt"=>"Sunny A.",
     "title_name"=>"Sunny A. (UI/UX Expert)",
@@ -12,7 +12,7 @@ $arr =
     "contact"=>"Contact Sunny",
     ],
     [
-    "banned"=>false,
+    "status"=>"",
     "img"=>"img/demo/authors/josh.png",
     "alt"=>"Jos K.",
     "title_name"=>"Jos K. (ASP.NET Developer)",
@@ -22,7 +22,7 @@ $arr =
     "contact"=>"Contact Jos",
     ],
     [
-    "banned"=>true,
+    "status"=>"banned",
     "img"=>"img/demo/authors/jovanni.png",
     "alt"=>"Jovanni Lo",
     "title_name"=>"Jovanni L. (PHP Developer)",
@@ -32,7 +32,7 @@ $arr =
     "contact"=>"Contact Jovanni",
     ],
     [
-    "banned"=>true,
+    "status"=>"banned",
     "img"=>"img/demo/authors/roberto.png",
     "alt"=>"Roberto R",
     "title_name"=>"Roberto R. (Rails Developer)",
@@ -83,8 +83,8 @@ $arr =
                 <div class="panel-content">
                     <div class="d-flex flex-wrap demo demo-h-spacing mt-3 mb-3">
                         <?php foreach ($arr as $item):?>
-                        <?php if ($item["banned"]==false):?>
-                            <div class="rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
+
+                            <div class="<?php if ($item["status"]=="banned") {echo "banned";} else echo "";?> rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
                                 <img src="<?=$item["img"]?>" alt="<?=$item["alt"]?>" class="img-thumbnail img-responsive rounded-circle" style="width:5rem; height: 5rem;">
                                 <div class="ml-2 mr-3">
                                     <h5 class="m-0">
@@ -97,21 +97,6 @@ $arr =
                                     <a href="<?=$item["link_wrap"]?>" class="text-info fs-sm" target="_blank" title="<?=$item["contact"]?>"><i class="fal fa-envelope"></i></a>
                                 </div>
                             </div>
-                            <?php else:?>
-                        <div class="<?= "banned"?> rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
-                        <img src="<?=$item["img"]?>" alt="<?=$item["alt"]?>" class="img-thumbnail img-responsive rounded-circle" style="width:5rem; height: 5rem;">
-                        <div class="ml-2 mr-3">
-                            <h5 class="m-0">
-                                <?=$item["title_name"]?>
-                                <small class="m-0 fw-300">
-                                    <?=$item["title_role"]?>
-                                </small>
-                            </h5>
-                            <a href="https://twitter.com/<?=$item["link_tw"]?>" class="text-info fs-sm" target="_blank"><?=$item["link_tw"]?></a> -
-                            <a href="<?=$item["link_wrap"]?>" class="text-info fs-sm" target="_blank" title="<?=$item["contact"]?>"><i class="fal fa-envelope"></i></a>
-                        </div>
-                    </div>
-                    <?php endif;?>
                     <?php endforeach;?>
                 </div>
             </div>
