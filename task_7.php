@@ -39,7 +39,7 @@ require "read_db.php";
                 <div class="panel-content">
                     <div class="d-flex flex-wrap demo demo-h-spacing mt-3 mb-3">
                         <?php foreach ($arr as $item):?>
-                            <div class="<?php if ($item["status"]=="banned") {echo $item["status"];} else echo $item["status"];?> rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
+                            <div class="<?php if ($item["status"]=="banned") {echo $item["status"];} else echo "";?> rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
                                 <img src="<?=$item["img"]?>" alt="<?=$item["alt"]?>" class="img-thumbnail img-responsive rounded-circle" style="width:5rem; height: 5rem;">
                                 <div class="ml-2 mr-3">
                                     <h5 class="m-0">
