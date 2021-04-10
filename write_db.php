@@ -28,6 +28,9 @@ $create_roberto = "INSERT INTO `users` (`id`, `status`, `img`, `alt`, `title_nam
 $arr_sql = [$create_table, $create_sanny, $create_jos, $create_jovanni, $create_roberto];
 foreach ($arr_sql as $value){
     $pdo->query($value);
+    $state_id=$pdo->query("SELECT id FROM `users` WHERE 1");
+    $arr_id=$state_id->fetchAll();
+    if (count($arr_id)>=4) break;
 }
 $pdo=null;
 
