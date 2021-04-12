@@ -1,8 +1,8 @@
 <?php
 session_start();
-$email = $_POST["email"];
-check_email($email);
 
+$email=$_POST["email"];
+$password=$_POST["password"];
 function check_email($email){
     $pdo = new PDO("mysql:host=localhost;dbname=immersion", "im", "123123");
     $sql = "SELECT * FROM users WHERE :email=email";
@@ -14,11 +14,9 @@ function check_email($email){
         header("Location: page_register.php");
         exit();
     }
-    reg_user(email, password);
+
 }
 
-$email=$_POST["email"];
-$password=$_POST["password"];
 
 function reg_user($email, $password){
 
@@ -30,3 +28,5 @@ function reg_user($email, $password){
     header("Location: page_login.php");
 }
 
+check_email($email);
+reg_user($email, $password);
