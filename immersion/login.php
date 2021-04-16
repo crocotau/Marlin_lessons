@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +44,7 @@ session_start();
                 ?>
             </div>
             <?php endif?>
-            <form action="backend.php" method="post">
+            <form action="check_reg.php" method="post">
                 <div class="form-group">
                     <label class="form-label" for="username">Email</label>
                     <input type="email" id="username" class="form-control" placeholder="Эл. адрес" value="" name="email">
