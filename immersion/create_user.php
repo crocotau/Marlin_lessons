@@ -58,7 +58,7 @@ check_access_to_add_users();
 
 
         </div>
-        <form action="user_create.php" method="post">
+        <form action="user_create.php" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -127,7 +127,7 @@ check_access_to_add_users();
 
                                 <div class="form-group">
                                     <label class="form-label" for="example-fileinput">Загрузить аватар</label>
-                                    <input type="file" id="example-fileinput" class="form-control-file">
+                                    <input type="file" id="example-fileinput" class="form-control-file" name="img">
                                 </div>
                             </div>
                         </div>

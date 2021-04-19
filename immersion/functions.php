@@ -3,6 +3,8 @@ session_start();
 
 $email = $_POST['email'];
 $password = $_POST['password'];
+$img = $_FILES['img'];
+$path_img = "img/demo/avatars/";
 
 function connect_to_db(){
     return $pdo = new PDO("mysql:host=localhost;dbname=immersion", "im", "123123");
@@ -75,18 +77,24 @@ function check_access_to_add_users(){
     }
 }
 
-function check_email_add($email){
+function check_email_password_add($email, $password){
     $pdo = connect_to_db();
     $sql = "SELECT * FROM users WHERE :email=email";
     $state = $pdo->prepare($sql);
     $state->execute(["email"=>$email]);
     $email_check=$state->fetch(PDO::FETCH_ASSOC);
-    if (empty($email_check)){
-        return true;
-    }else {
-        message('danger', "Почта ".$email." занята");
+    if (empty($email)){
+        message('danger', "Введите почту");
         redirect_to("create_user.php");
     }
+    elseif (empty($password)){
+        message('danger', "Введите пароль");
+        redirect_to("create_user.php");
+    }
+    elseif ($email_check['email']==$email){
+        message('danger', "Почта ".$email." занята");
+        redirect_to("create_user.php");
+    }else return true;
 }
 
 function add_user($email, $password){
@@ -119,8 +127,38 @@ function set_status($status, $user_id){
     $state->execute(['status'=>$status]);
 }
 
-function upload_avatar($image, $user_id){
-    //TODO
+function upload_avatar($path_img, $img, $user_id){
+    $img_name = $img['name'];
+    $temp_img = $img['tmp_name'];
+    $types = ['jpg', 'png', 'jpeg'];
+
+
+    if(empty($img_name)) {
+        redirect_to('create_user.php');
+        return message('danger', 'Выберите изображение');
+    }
+    if($img['size'] == 0) {
+        redirect_to('create_user.php');
+        return message('danger', 'Файл слишком большой');
+    }
+    $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+    if(!in_array($ext, $types)) {
+        redirect_to('create_user.php');
+        return message('danger', 'Неправильный тип файла');
+    }
+
+    $img_name=$_POST['username']."-".uniqid().'.'.$ext;
+
+    $path_img = $path_img.$img_name;
+
+    $pdo = connect_to_db();
+    $sql = "UPDATE `users` SET `img`=:img WHERE `users`.`id` = $user_id";
+    $state = $pdo->prepare($sql);
+    $state->execute(['img'=>$img_name]);
+
+    move_uploaded_file($temp_img, $path_img);
+    return true;
 }
 
 function add_social_links($telegram_link, $vk_link, $inst_link, $user_id){
