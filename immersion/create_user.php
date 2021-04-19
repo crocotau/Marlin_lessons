@@ -45,22 +45,11 @@ check_access_to_add_users();
             <h1 class="subheader-title">
                 <i class='subheader-icon fal fa-plus-circle'></i> Добавить пользователя
             </h1>
-            <?php if (isset($_SESSION['add_user_success'])):?>
-            <div class="alert alert-success">
-                <?= $_SESSION['add_user_success'];
-                unset($_SESSION['add_user_success']);
-                ?>
-            </div>
-            <?php elseif (isset($_SESSION['danger'])):?>
+
+            <?php if (isset($_SESSION['danger'])):?>
                 <div class="alert alert-danger">
                     <?= $_SESSION['danger'];
                     unset($_SESSION['danger']);
-                    ?>
-                </div>
-            <?php elseif (isset($_SESSION['danger_pass'])):?>
-                <div class="alert alert-danger">
-                    <?= $_SESSION['danger_pass'];
-                    unset($_SESSION['danger_pass']);
                     ?>
                 </div>
 

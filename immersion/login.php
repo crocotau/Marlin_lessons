@@ -43,6 +43,18 @@ session_start();
                 unset($_SESSION['danger']);
                 ?>
             </div>
+            <?php elseif(isset($_SESSION['access_to_add'])):?>
+                <div class="alert alert-warning">
+                    <?= $_SESSION['access_to_add'];
+                    unset($_SESSION['access_to_add']);
+                    ?>
+                </div>
+            <?php elseif(isset($_SESSION['success'])):?>
+                <div class="alert alert-success">
+                    <?= $_SESSION['success'];
+                    unset($_SESSION['success']);
+                    ?>
+                </div>
             <?php endif?>
             <form action="check_reg.php" method="post">
                 <div class="form-group">

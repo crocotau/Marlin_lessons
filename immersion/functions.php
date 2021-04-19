@@ -61,7 +61,7 @@ function reg_user($email, $password)
     $state->execute(['email'=>$email, 'password'=>password_hash($password, PASSWORD_DEFAULT)]);
     $_SESSION["success"]="Вы успешно зарегистрировались!";
     redirect_to("login.php");
-    return $last_id = $pdo->lastInsertId();
+    return $user_id = $pdo->lastInsertId();
 }
 
 function redirect_to($page){
@@ -95,7 +95,7 @@ function add_user($email, $password){
     $state = $pdo->prepare($sql);
     $state->execute(['email'=>$email, 'password'=>password_hash($password, PASSWORD_DEFAULT)]);
     redirect_to("create_user.php");
-    return (int)$last_id = $pdo->lastInsertId();
+    return (int)$user_id = $pdo->lastInsertId();
 }
 
 function edit_user($username, $job, $phone, $address, $user_id)
@@ -106,8 +106,8 @@ function edit_user($username, $job, $phone, $address, $user_id)
     $state->execute(
         [
             'username'=>$username,
-            'prof'=>$job,
-            'tel'=>$phone,
+            'job'=>$job,
+            'phone'=>$phone,
             'address'=>$address
         ]);
 }

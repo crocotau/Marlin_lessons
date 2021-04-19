@@ -1,10 +1,6 @@
 <?php
 session_start();
-$pdo = new PDO("mysql:host=localhost;dbname=immersion", "im", "123123");
-$sql = "SELECT * FROM users";
-$sth = $pdo->prepare($sql);
-$sth->execute();
-$arr = $sth->fetchAll(PDO::FETCH_ASSOC);
+require_once "functions.php";
 ?>
 
 <!DOCTYPE html>
@@ -45,9 +41,13 @@ $arr = $sth->fetchAll(PDO::FETCH_ASSOC);
         </nav>
 
         <main id="js-page-content" role="main" class="page-content mt-3">
+            <?php if (isset($_SESSION['add_user_success'])):?>
             <div class="alert alert-success">
-                Профиль успешно обновлен.
+                <?= $_SESSION['add_user_success'];
+                unset($_SESSION['add_user_success']);
+                ?>
             </div>
+            <?php endif;?>
             <div class="subheader">
                 <h1 class="subheader-title">
                     <i class='subheader-icon fal fa-users'></i> Список пользователей
@@ -56,7 +56,7 @@ $arr = $sth->fetchAll(PDO::FETCH_ASSOC);
             <div class="row">
                 <div class="col-xl-12">
                     <?php if (isset($_SESSION["admin"])):?>
-                    <a class="btn btn-success" href="create_user.html">Добавить</a>
+                    <a class="btn btn-success" href="create_user.php">Добавить</a>
                     <?php endif;?>
                     <div class="border-faded bg-faded p-3 mb-g d-flex mt-3">
                         <input type="text" id="js-filter-contacts" name="filter-contacts" class="form-control shadow-inset-2 form-control-lg" placeholder="Найти пользователя">
@@ -72,9 +72,9 @@ $arr = $sth->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
             <div class="row" id="js-contacts">
-                <?php foreach ($arr as $item):?>
+                <?php foreach (get_all_users() as $item):?>
                 <div class="col-xl-4">
-                    <div id="c_1" class="card border shadow-0 mb-g shadow-sm-hover" data-filter-tags="<?= strtolower($item['name']);?> <?= strtolower($item['surname']);?>">
+                    <div id="c_1" class="card border shadow-0 mb-g shadow-sm-hover" data-filter-tags="<?= strtolower($item['username']);?>">
                         <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
                             <div class="d-flex flex-row align-items-center">
                                 <span class="status status-success mr-3">
@@ -82,7 +82,7 @@ $arr = $sth->fetchAll(PDO::FETCH_ASSOC);
                                 </span>
                                 <div class="info-card-text flex-1">
                                     <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info" data-toggle="dropdown" aria-expanded="false">
-                                        <?= $item['name']." ".$item['surname']?>
+                                        <?= $item['username']?>
                                         <?php if (isset($_SESSION["admin"])):?>
                                         <i class="fal fas fa-cog fa-fw d-inline-block ml-1 fs-md"></i>
                                         <i class="fal fa-angle-down d-inline-block ml-1 fs-md"></i>
@@ -132,7 +132,7 @@ $arr = $sth->fetchAll(PDO::FETCH_ASSOC);
                                         </a>
                                     </div>
                                     <?php endif;?>
-                                    <span class="text-truncate text-truncate-xl"><?= $item['prof']?></span>
+                                    <span class="text-truncate text-truncate-xl"><?= $item['job']?></span>
                                 </div>
                                 <button class="js-expand-btn btn btn-sm btn-default d-none" data-toggle="collapse" data-target="#c_1 > .card-body + .card-body" aria-expanded="false">
                                     <span class="collapsed-hidden">+</span>
@@ -143,7 +143,7 @@ $arr = $sth->fetchAll(PDO::FETCH_ASSOC);
                         <div class="card-body p-0 collapse show">
                             <div class="p-3">
                                 <a href="tel:+13174562564" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                    <i class="fas fa-mobile-alt text-muted mr-2"></i> <?= $item['tel']?></a>
+                                    <i class="fas fa-mobile-alt text-muted mr-2"></i> <?= $item['phone']?></a>
                                 <a href="mailto:oliver.kopyov@smartadminwebapp.com" class="mt-1 d-block fs-sm fw-400 text-dark">
                                     <i class="fas fa-mouse-pointer text-muted mr-2"></i> <?= $item['email']?></a>
                                 <address class="fs-sm fw-400 mt-4 text-muted">
@@ -170,7 +170,7 @@ $arr = $sth->fetchAll(PDO::FETCH_ASSOC);
         <!-- BEGIN Page Footer -->
         <footer class="page-footer" role="contentinfo">
             <div class="d-flex align-items-center flex-1 text-muted">
-                <span class="hidden-md-down fw-700">2020 © Учебный проект</span>
+                <span class="hidden-md-down fw-700"><?= date('Y');?> © Учебный проект</span>
             </div>
             <div>
                 <ul class="list-table m-0">
