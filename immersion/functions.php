@@ -5,6 +5,8 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 $img = $_FILES['img'];
 $path_img = "img/demo/avatars/";
+$logged_id = $_SESSION['id'];
+$edit_id = $_GET['id'];
 
 function connect_to_db(){
     return $pdo = new PDO("mysql:host=localhost;dbname=immersion", "im", "123123");
@@ -32,6 +34,27 @@ function check_email($email){
     }else {
         return true;
     }
+}
+function check_email_secur($email, $id){
+    $pdo = connect_to_db();
+    $sql = "SELECT * FROM users WHERE :email=email";
+    $state = $pdo->prepare($sql);
+    $state->execute(["email"=>$email]);
+    $email_check=$state->fetch(PDO::FETCH_ASSOC);
+    if (!empty($email_check)){
+        message('danger_email_add_secur',"Почта ".$email." занята");
+        redirect_to("security.php?id=".$id);
+        exit;
+    }
+    return true;
+}
+
+function edit_user_secur($email, $password, $user_id){
+    $pdo = connect_to_db();
+    $sql = "UPDATE `users` SET `email`=:email, `password`=:password WHERE `users`.`id` = $user_id";
+    $state = $pdo->prepare($sql);
+    $state->execute(['email'=>$email, 'password'=>password_hash($password, PASSWORD_DEFAULT)]);
+    return true;
 }
 
 function check_login_pass($email, $password)
@@ -75,6 +98,46 @@ function check_access_to_add_users(){
         redirect_to("login.php");
         message('access_to_add', "Войдите под админом");
     }
+}
+
+function is_logged($logged_id){
+    if (!isset($logged_id)) {
+        redirect_to("login.php");
+        message('access_to_add', "Войдите в аккаунт");
+    }
+    return true;
+}
+//
+//function is_admin($logged_id, $edit_id){
+//    if (!isset($_SESSION['admin'])) {
+//        if ($logged_id!=$edit_id){
+//            redirect_to('users.php');
+//            message('not_admin', "Недостаточно прав. Войдите под админом");
+//        }
+//    }
+//    return true;
+//}
+
+function check_access_to_edit_user($logged_id, $edit_id){
+    if (!isset($logged_id)) {
+        redirect_to("login.php");
+        message('access_to_add', "Войдите в аккаунт");
+    }
+    elseif (!isset($_SESSION['admin'])) {
+        if ($logged_id!=$edit_id){
+            redirect_to('users.php?id='.$edit_id);
+            message('not_admin', "Недостаточно прав. Войдите под админом");
+        }
+    }
+    return true;
+}
+
+function get_user_by_id($user_id){
+    $pdo=connect_to_db();
+    $sql = "SELECT * FROM `users` WHERE `users`.`id` = $user_id";
+    $sth=$pdo->prepare($sql);
+    $sth->execute();
+    return $arr = $sth->fetch(PDO::FETCH_ASSOC);
 }
 
 function check_email_password_add($email, $password){
@@ -144,11 +207,11 @@ function upload_avatar($path_img, $img, $user_id){
     $ext = pathinfo($img_name, PATHINFO_EXTENSION);
 
     if(!in_array($ext, $types)) {
+        message('danger', 'Неправильный тип файла');
         redirect_to('create_user.php');
-        return message('danger', 'Неправильный тип файла');
+        exit();
     }
-
-    $img_name=$_POST['username']."-".uniqid().'.'.$ext;
+    $img_name="-".uniqid().'.'.$ext;
 
     $path_img = $path_img.$img_name;
 
@@ -176,6 +239,14 @@ function add_social_links($telegram_link, $vk_link, $inst_link, $user_id){
 function message($sess_key, $message){
     return $_SESSION[$sess_key]=$message;
 }
+
+function user_del($edit_id){
+    connect_to_db()->prepare("DELETE FROM `users` WHERE `users`.`id` = $edit_id")->execute();
+    return true;
+}
+
+
+
 
 
 
