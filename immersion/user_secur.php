@@ -30,8 +30,9 @@ if ($password!=$confirm_password){
     exit;
 }
 
-elseif ($arr_secur['email']==$email && !password_verify($password, $arr_secur['password'])){
+if (check_email_secur($email, $edit_id) && $arr_secur['id']==$edit_id){
     edit_user_secur($email, $password, $edit_id);
     message('success_edit', 'Email и пароль обновлены');
     redirect_to('users.php');
-}else check_email_secur($email, $edit_id);
+}
+
