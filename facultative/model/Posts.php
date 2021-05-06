@@ -5,7 +5,7 @@ class Posts
 
     public function setPost($username, $post)
     {
-        $this->datePost=date('H:i, d:Y');
+        $this->datePost=date('H:i, d-m-Y');
         $pdo = new PDO("mysql:host=localhost;dbname=immersion", "im", "123123");
         $sql = "INSERT INTO `posts` (`id`, `username`, `post`, `date`) VALUES (NULL, :username, :post, '')";
         $sth=$pdo->prepare($sql);
